@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Models\mantenimiento;
+use \Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -12,7 +16,11 @@ class matenimientosController extends Controller
      */
     public function index()
     {
-        //
+        $mantenimientos = DB::table('mantenimientos')
+            ->join('vehiculos', 'mantenimientos.vehiculo_id', '=', 'vehiculos.id')
+            ->select('mantenimientos.*', 'vehiculos.matricula as matricula')
+            ->get();
+            return json_encode(['mantenimientos' => $mantenimientos]);
     }
 
     /**
@@ -20,7 +28,28 @@ class matenimientosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = Validator::make($request->all(),[
+            'vehiculo_id'=> ['required','integer'],
+            'fecha'=> ['required'],
+            'descripcion'=> ['required'],
+            'costo'=> ['required','integer'],
+
+        ]);
+
+        if($validate->fails()){
+            return response()->json([
+                'msg'=> 'Se produjo un error en la validacion de la informacion ',
+                'statusCode'=> 400
+            ]);
+        }
+        $mantenimiento = new mantenimiento();
+        $mantenimiento->vehiculo_id = $request->vehiculo_id;
+        $mantenimiento->fecha = $request->fecha;
+        $mantenimiento->descripcion = $request->descripcion;
+        $mantenimiento->costo = $request->costo;
+        $mantenimiento->id = $request->id;
+        $mantenimiento->save();
+        return json_encode(['mantenimiento' => $mantenimiento,'success'=>true]);
     }
 
     /**
@@ -28,7 +57,15 @@ class matenimientosController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $mantenimiento = mantenimiento::find($id);
+        if (is_null($mantenimiento)){
+            return abort(404);
+        }
+
+        $vehiculos = DB::table('vehiculos')
+            ->orderBy('nombre')
+            ->get();
+        return json_encode(['mantenimiento' => $mantenimiento,"vehiculos" => $vehiculos]);
     }
 
     /**
@@ -36,7 +73,16 @@ class matenimientosController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $mantenimiento = mantenimiento::find($id);
+        if (is_null($mantenimiento)){
+            return abort(404);
+        }
+        $mantenimiento->vehiculo_id = $request->vehiculo_id;
+        $mantenimiento->fecha = $request->fecha;
+        $mantenimiento->descripcion = $request->descripcion;
+        $mantenimiento->costo = $request->costo;
+        $mantenimiento->save();
+        return json_encode(['mantenimiento' => $mantenimiento,'success'=>true]);
     }
 
     /**
@@ -44,6 +90,11 @@ class matenimientosController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $mantenimiento = mantenimiento::find($id);
+        if (is_null($mantenimiento)){
+            return abort(404);
+        }
+        $mantenimiento->delete();
+        return json_encode(['mantenimiento' => $mantenimiento,'success'=>true]);
     }
 }
