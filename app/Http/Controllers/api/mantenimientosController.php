@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class matenimientosController extends Controller
+class mantenimientosController extends Controller
 {
     /**
      * Display a listing of the resource.
