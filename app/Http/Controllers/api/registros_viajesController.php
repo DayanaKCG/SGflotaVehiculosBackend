@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Models\registro_viaje;
+use App\Models\registros_viaje;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
@@ -46,16 +46,16 @@ class registros_viajesController extends Controller
                 'statusCode'=> 400
             ]);
         }
-        $registro_viaje = new registro_viaje();
-        $registro_viaje->vehiculo_id = $request->vehiculo_id;
-        $registro_viaje->conductor_id = $request->conductor_id;
-        $registro_viaje->ruta_id = $request->ruta_id;
-        $registro_viaje->fecha_inicio = $request->fecha_inicio;
-        $registro_viaje->fecha_fin = $request->fecha_fin;
-        $registro_viaje->kilometraje = $request->kilometraje;
-        $registro_viaje->id = $request->id;
-        $registro_viaje->save();
-        return json_encode(['registro_viaje' => $registro_viaje,'success'=>true]);
+        $registros_viaje = new registros_viaje();
+        $registros_viaje->vehiculo_id = $request->vehiculo_id;
+        $registros_viaje->conductor_id = $request->conductor_id;
+        $registros_viaje->ruta_id = $request->ruta_id;
+        $registros_viaje->fecha_inicio = $request->fecha_inicio;
+        $registros_viaje->fecha_fin = $request->fecha_fin;
+        $registros_viaje->kilometraje = $request->kilometraje;
+        $registros_viaje->id = $request->id;
+        $registros_viaje->save();
+        return json_encode(['registros_viaje' => $registros_viaje,'success'=>true]);
     }
 
     /**
@@ -63,8 +63,8 @@ class registros_viajesController extends Controller
      */
     public function show(string $id)
     {
-        $registro_viaje = registro_viaje::find($id);
-        if (is_null($registro_viaje)){
+        $registros_viaje = registros_viaje::find($id);
+        if (is_null($registros_viaje)){
             return abort(404);
         }
 
@@ -77,7 +77,7 @@ class registros_viajesController extends Controller
         $rutas = DB::table('rutas')
             ->orderBy('descripcion')
             ->get();
-        return json_encode(['registro_viaje' => $registro_viaje,"vehiculos" => $vehiculos,"rutas" => $rutas,"conductores" => $conductores]);
+        return json_encode(['registros_viaje' => $registros_viaje,"vehiculos" => $vehiculos,"rutas" => $rutas,"conductores" => $conductores]);
     }
 
     /**
@@ -85,8 +85,8 @@ class registros_viajesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $registro_viaje = registro_viaje::find($id);
-        if (is_null($registro_viaje)){
+        $registros_viaje = registros_viaje::find($id);
+        if (is_null($registros_viaje)){
             return abort(404);
         }
         $validate = Validator::make($request->all(),[
@@ -105,15 +105,15 @@ class registros_viajesController extends Controller
                 'statusCode'=> 400
             ]);
         }
-        
-        $registro_viaje->vehiculo_id = $request->vehiculo_id;
-        $registro_viaje->conductor_id = $request->conductor_id;
-        $registro_viaje->ruta_id = $request->ruta_id;
-        $registro_viaje->fecha_inicio = $request->fecha_inicio;
-        $registro_viaje->fecha_fin = $request->fecha_fin;
-        $registro_viaje->kilometraje = $request->kilometraje;
-        $registro_viaje->save();
-        return json_encode(['registro_viaje' => $registro_viaje,'success'=>true]);
+
+        $registros_viaje->vehiculo_id = $request->vehiculo_id;
+        $registros_viaje->conductor_id = $request->conductor_id;
+        $registros_viaje->ruta_id = $request->ruta_id;
+        $registros_viaje->fecha_inicio = $request->fecha_inicio;
+        $registros_viaje->fecha_fin = $request->fecha_fin;
+        $registros_viaje->kilometraje = $request->kilometraje;
+        $registros_viaje->save();
+        return json_encode(['registros_viaje' => $registros_viaje,'success'=>true]);
     }
 
     /**
@@ -121,11 +121,11 @@ class registros_viajesController extends Controller
      */
     public function destroy(string $id)
     {
-        $registro_viaje = registro_viaje::find($id);
-        if (is_null($registro_viaje)){
+        $registros_viaje = registros_viaje::find($id);
+        if (is_null($registros_viaje)){
             return abort(404);
         }
-        $registro_viaje->delete();
-        return json_encode(['registro_viaje' => $registro_viaje,'success'=>true]);
+        $registros_viaje->delete();
+        return json_encode(['registros_viaje' => $registros_viaje,'success'=>true]);
     }
 }

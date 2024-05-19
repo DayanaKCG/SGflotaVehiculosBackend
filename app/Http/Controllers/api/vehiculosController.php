@@ -29,6 +29,7 @@ class vehiculosController extends Controller
             'marca'=> ['required'],
             'ano'=> ['required'],
             'estado'=> ['required'],
+            'modelo'=> ['required'],
 
         ]);
 
@@ -43,6 +44,7 @@ class vehiculosController extends Controller
         $vehiculo->marca = $request->marca;
         $vehiculo->ano = $request->ano;
         $vehiculo->estado = $request->estado;
+        $vehiculo->modelo = $request->modelo;
         $vehiculo->id = $request->id;
         $vehiculo->save();
         return json_encode(['vehiculo' => $vehiculo,'success'=>true]);
@@ -74,6 +76,7 @@ class vehiculosController extends Controller
             'marca'=> ['required'],
             'ano'=> ['required'],
             'estado'=> ['required'],
+            'modelo'=> ['required'],
 
         ]);
 
@@ -87,6 +90,7 @@ class vehiculosController extends Controller
         $vehiculo->marca = $request->marca;
         $vehiculo->ano = $request->ano;
         $vehiculo->estado = $request->estado;
+        $vehiculo->modelo = $request->modelo;
         $vehiculo->save();
         return json_encode(['vehiculo' => $vehiculo,'success'=>true]);
     }
