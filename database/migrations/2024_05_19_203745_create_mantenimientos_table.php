@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('mantenimientos', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('vehiculo_id')->nullable()->references('id')->on('vehiculos');
+            $table->date('fecha');
+            $table->string('descripcion');
+            $table->integer('costo');
             $table->timestamps();
         });
     }

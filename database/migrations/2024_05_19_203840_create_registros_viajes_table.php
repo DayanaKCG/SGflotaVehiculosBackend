@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('registros_viajes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('vehiculo_id')->nullable()->references('id')->on('vehiculos');
+            $table->foreignId('conductor_id')->nullable()->references('id')->on('conductores');
+            $table->foreignId('ruta_id')->nullable()->references('id')->on('rutas');
+            $table->date('fecha_inicio');
+            $table->date('fecha_fin');
+            $table->string('kilometraje');
             $table->timestamps();
         });
     }
