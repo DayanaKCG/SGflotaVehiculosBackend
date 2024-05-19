@@ -72,7 +72,7 @@ class conductoresController extends Controller
         $validate = Validator::make($request->all(),[
             'nombre'=> ['required'],
             'apellido'=> ['required'],
-            'licencia'=> ['required'],
+            'licencia'=> ['required','integer'],
             'fecha_contratacion'=> ['required'],
 
         ]);
