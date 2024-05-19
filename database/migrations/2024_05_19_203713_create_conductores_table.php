@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('conductores', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre');
+            $table->string('apellido');
+            $table->string('licencia');
+            $table->date('fecha_contratacion');
             $table->timestamps();
         });
     }
