@@ -69,6 +69,20 @@ class vehiculosController extends Controller
         if (is_null($vehiculo)){
             return abort(404);
         }
+        $validate = Validator::make($request->all(),[
+            'matricula'=> ['required'],
+            'marca'=> ['required'],
+            'ano'=> ['required'],
+            'estado'=> ['required'],
+
+        ]);
+
+        if($validate->fails()){
+            return response()->json([
+                'msg'=> 'Se produjo un error en la validacion de la informacion ',
+                'statusCode'=> 400
+            ]);
+        }
         $vehiculo->matricula = $request->matricula;
         $vehiculo->marca = $request->marca;
         $vehiculo->ano = $request->ano;

@@ -69,6 +69,20 @@ class conductoresController extends Controller
         if (is_null($conductor)){
             return abort(404);
         }
+        $validate = Validator::make($request->all(),[
+            'nombre'=> ['required'],
+            'apellido'=> ['required'],
+            'licencia'=> ['required'],
+            'fecha_contratacion'=> ['required'],
+
+        ]);
+
+        if($validate->fails()){
+            return response()->json([
+                'msg'=> 'Se produjo un error en la validacion de la informacion ',
+                'statusCode'=> 400
+            ]);
+        }
         $conductor->nombre = $request->nombre;
         $conductor->apellido = $request->apellido;
         $conductor->licencia = $request->licencia;

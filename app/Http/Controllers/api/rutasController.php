@@ -69,6 +69,20 @@ class rutasController extends Controller
         if (is_null($ruta)){
             return abort(404);
         }
+        $validate = Validator::make($request->all(),[
+            'descripcion'=> ['required'],
+            'origen'=> ['required'],
+            'destino'=> ['required'],
+            'distancia'=> ['required'],
+
+        ]);
+
+        if($validate->fails()){
+            return response()->json([
+                'msg'=> 'Se produjo un error en la validacion de la informacion ',
+                'statusCode'=> 400
+            ]);
+        }
         $ruta->descripcion = $request->descripcion;
         $ruta->origen = $request->origen;
         $ruta->destino = $request->destino;

@@ -63,7 +63,7 @@ class matenimientosController extends Controller
         }
 
         $vehiculos = DB::table('vehiculos')
-            ->orderBy('nombre')
+            ->orderBy('matricula')
             ->get();
         return json_encode(['mantenimiento' => $mantenimiento,"vehiculos" => $vehiculos]);
     }
@@ -76,6 +76,20 @@ class matenimientosController extends Controller
         $mantenimiento = mantenimiento::find($id);
         if (is_null($mantenimiento)){
             return abort(404);
+        }
+        $validate = Validator::make($request->all(),[
+            'vehiculo_id'=> ['required','integer'],
+            'fecha'=> ['required'],
+            'descripcion'=> ['required'],
+            'costo'=> ['required','integer'],
+
+        ]);
+
+        if($validate->fails()){
+            return response()->json([
+                'msg'=> 'Se produjo un error en la validacion de la informacion ',
+                'statusCode'=> 400
+            ]);
         }
         $mantenimiento->vehiculo_id = $request->vehiculo_id;
         $mantenimiento->fecha = $request->fecha;
